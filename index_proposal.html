@@ -1,0 +1,110 @@
+\<html>
+    \<head><title></title>
+        <style>
+            table, th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+
+        </style>
+            <link rel="stylesheet" type="text/css" href="https://www.niser.ac.in/~smishra/css/smlab.css">
+        <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    </head>
+    \<body>
+        <header>
+            <h1><center>Articles Clusterings using Word and Doc Embeddings</center></h1>
+            <h3><center>Subham Bhattacharjee</center></h3>
+        </header>
+        <hr />
+        <p>
+            <h3> Introduction</h3>
+        </p>
+        <p>
+          Document  classification or Document  Categorization is  a  problem  in  library  science, information science and computer science. The task is to assign a document to one or more classes or categories.
+          But when the same task is done for the documents without any knowlwdge about the labels or categories, then the problem turns into a clustering problem. Here in this project we are trying to cluster news
+          articles using the concept of word embeddings and doc embeddings.
+        </p>
+        <p><h3>What are Word Embeddings:</h3></p>
+        <p>Word Embeddings are a type of learned word representation that allows words with similar meaning to have a similar representation. 
+          Word embeddings are in fact a class of techniques where individual words are represented as real-valued vectors in a predefined vector space. The idea will be more clear by the following example. <br>
+          The following figure shows vector representation of some words in a two dimensional vector space.
+        </p>
+        <div class="square">
+          <div> 
+              <center><img src= 
+                "word embeddings.png" width="350" height="350"
+                                    ></center> 
+          </div>
+          <p></p>
+        <p>
+          <h3>Idea and Pathway</h3>
+        </p>
+        <p>
+          The project is divided into the following three stages.  
+          <ul>
+            <li><b><h5>Preprocessing of Articles:</h5></b>This stage is all about cleaning and organizing of the news articles. This includes first the tokenizing of the words of each article. After this comes the stages 
+            turning all the words into lower cases so that all same words treated differently are not treated as different words. There are certain words which are regularly used in all types of documents like <b>articles</b>
+            ,<b>prepositions</b> etc. Such words in general does not tell anything significant about what the article is saying. Such words are called <b>stopwords</b>. There are also certain cases where combination of 
+            two or more words tell us about a significatnt topic but individually they may tell adifferent story. For example <b>New York</b> together means a city but separately as <b>New and York</b> they are very general,
+            like <b>New</b> is general word. Other examples are <b>Queen Elizabeth</b> etc. Such words also have to be taken care of. 
+          </li>
+            <li><b><h5>Generation of Vectors:</h5></b>After the preprocessing of the atrticles in the previous stage this stage will be the vector genaration for the news articles. Now for the generation of vectors of each 
+              words there are different embedding techniques available like <b>Word2Vec<a href="index_Subham.html#MikolovWord2Vec">(1)</a></b>, <b>BERT</b>, <b>Fasttext</b>. They are already implemented and can be used directly.  
+              But for creating vectors for a doccument Mikolov<a href="index_Subham.html#MikolovWord2Vec">(3)</a></li> gave the idea of how to give a efficient representation of documents or sentences (Doc Embeddings). So here
+              those cocepts will be used for the creation of the vectors for the articles. 
+            <li><b><h5>Clustering and Analysis:</h5></b>This is the stage where the vectors gained in the previous stage will be applied on the clustering algorithms. Here I am planning to to use various classical
+            clustering algorithms like K-Means, DBSCAN etc. After the clustering is done we can bring out the frequent words occuring in a particular cluster to predict what type of news articles are present in that 
+          particular cluster say sports news, business news, political news etc. This stage is not a single run stage, its a cyclic stage. It means that if we do not get proper words from the clusters then we can apply 
+          other clustering algorithms or perform some improvements again in the text preprocessing to get better results. For the clustering I am referring to the paper<a href="index_Subham.html#MikolovWord2Vec">(2)</a>.
+          It is a review paper of 2017 which dicusses about the various clusterinf algorithms./li>
+          </ul>
+        </p>
+        <p>
+          <h3>Dataset</h3>
+        </p>
+        <p>There are two datasets which I have choosen for the project</p>
+        <ol>
+          <li><a href="https://www.kaggle.com/snapcrack/all-the-news">All the news</a></li>
+          <li><a href="https://data.world/opensnippets/al-jazeera-news-dataset">Al Jazeera English News</a></li>
+        </ol>
+        <p>
+          Both these datasets are news datasets. Though datasets contain many field like TITLE, CONTENT, ID , AUTHOR , DOP etc but I will mainly focus on the fields from which we get relevant information. 
+        </p>
+        <p>
+          <h3>What to expect by Midway and post midway</h3>
+        </p>
+        <p>By midway I expect to complete the data preprocessing and generation of vectors of the articles. If possible I will try to apply the clustering algorithms to genarate some results. In post midway phase 
+          I will try to apply more clustering algorithms and hope to apply some neural networks techniques and try to improve the techniques in the preprocessing phase if possible and try to get better results.
+        </p>
+        <ol>
+          <li>
+             <p><a name="MikolovWord2Vec"><cite>Mikolov, Tomas & Chen, Kai & Corrado, G.s & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. Proceedings of Workshop at ICLR. 2013.</cite></a></p>
+          </li>
+          <li>
+             <p><cite><a name="Clustering Review">Saxena, Amit & Prasad, Mukesh & Gupta, Akshansh & Bharill, Neha & Patel, op & Tiwari, Aruna & Er, Meng & Lin, Chin-Teng. (2017). A Review of Clustering Techniques and Developments. 
+               Neurocomputing. 267. 10.1016/j.neucom.2017.06.053.</a> </cite></p>
+          </li>
+          <li>
+            <p><cite><a name="MikolovDoc2Vec">Le, Quoc & Mikolov, Tomas. (2014). Distributed Representations of Sentences and Documents. 31st International Conference on Machine Learning, ICML 2014. 4.</a> </cite></p>
+         </li>
+       </ol>
+
+
+
+
+    
+    
+    </body>
+</html>

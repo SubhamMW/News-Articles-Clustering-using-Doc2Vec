@@ -1,0 +1,306 @@
+\<html>
+    \<head><title></title>
+        <style>
+            table, th, td {
+      border: 1px solid black;
+      padding: 5px;
+    }
+
+        </style>
+            <link rel="stylesheet" type="text/css" href="https://www.niser.ac.in/~smishra/css/smlab.css">
+        <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+    </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+    </script>
+    </head>
+    \<body>
+        <header>
+            <h1><center>News Articles Clusterings using Word and Doc Embeddings</center></h1>
+            <h3><center>Subham Bhattacharjee</center></h3>
+        </header>
+        <hr />
+        <p>
+            <h3> Introduction</h3>
+        </p>
+        <p>
+          Document  classification or Document  Categorization is  a  problem  in  library  science, information science and computer science. The task is to assign a document to one or more classes or categories.
+          But when the same task is done for the documents without any knowlwdge about the labels or categories, then the problem turns into a clustering problem. Here in this project we are trying to cluster news
+          articles using the concept of word embeddings and doc embeddings.
+        </p>
+        <p><h3>What are Word Embeddings:</h3></p>
+        <p>Word Embeddings are a type of learned word representation that allows words with similar meaning to have a similar representation. 
+          Word embeddings are in fact a class of techniques where individual words are represented as real-valued vectors in a predefined vector space. The idea will be more clear by the following example. <br>
+          The following figure shows vector representation of some words in a two dimensional vector space.
+        </p>
+        <div class="square">
+          <div> 
+              <center><img src= 
+                "word embeddings.png" width="350" height="350"
+                                    ></center> 
+          </div>
+          <p></p>
+        <p>
+          <h3>Idea and Pathway</h3>
+        </p>
+        <p>
+          The project is divided into the following three stages.  
+          <ul>
+            <li><b><h5>Preprocessing of Articles:</h5></b>This stage is all about cleaning and organizing of the news articles. This includes first the tokenizing of the words of each article. After this comes the stages 
+            turning all the words into lower cases so that all same words treated differently are not treated as different words. There are certain words which are regularly used in all types of documents like <b>articles</b>
+            ,<b>prepositions</b> etc. Such words in general does not tell anything significant about what the article is saying. Such words are called <b>stopwords</b>. There are also certain cases where combination of 
+            two or more words tell us about a significatnt topic but individually they may tell adifferent story. For example <b>New York</b> together means a city but separately as <b>New and York</b> they are very general,
+            like <b>New</b> is general word. Other examples are <b>Queen Elizabeth</b> etc. Such words also have to be taken care of. 
+          </li>
+            <li><b><h5>Generation of Vectors:</h5></b>After the preprocessing of the atrticles in the previous stage this stage will be the vector genaration for the news articles. Now for the generation of vectors of each 
+              words there are different embedding techniques available like <b>Word2Vec<a href="index_Subham.html#MikolovWord2Vec">(1)</a></b>, <b>BERT</b>, <b>Fasttext</b>. They are already implemented and can be used directly.  
+              But for creating vectors for a doccument Mikolov<a href="index_Subham.html#MikolovWord2Vec">(3)</a></li> gave the idea of how to give a efficient representation of documents or sentences (Doc Embeddings). So here
+              those cocepts will be used for the creation of the vectors for the articles. 
+            <li><b><h5>Clustering and Analysis:</h5></b>This is the stage where the vectors gained in the previous stage will be applied on the clustering algorithms. Here I am planning to to use various classical
+            clustering algorithms like K-Means, DBSCAN etc. After the clustering is done we can bring out the frequent words occuring in a particular cluster to predict what type of news articles are present in that 
+          particular cluster say sports news, business news, political news etc. This stage is not a single run stage, its a cyclic stage. It means that if we do not get proper words from the clusters then we can apply 
+          other clustering algorithms or perform some improvements again in the text preprocessing to get better results. For the clustering I am referring to the paper<a href="index_Subham.html#MikolovWord2Vec">(2)</a>.
+          It is a review paper of 2017 which dicusses about the various clusterinf algorithms./li>
+          </ul>
+        </p>
+        <p>
+          <h3>Dataset</h3>
+        </p>
+        <p>There are two datasets which I have choosen for the project</p>
+        <ol>
+          <li><a href="https://www.kaggle.com/snapcrack/all-the-news">All the news</a></li>
+          <li><a href="https://data.world/opensnippets/al-jazeera-news-dataset">Al Jazeera English News</a></li>
+        </ol>
+        <p>
+          Both these datasets are news datasets. Though datasets contain many field like TITLE, CONTENT, ID , AUTHOR , DOP etc but I will mainly focus on the fields from which we get relevant information. 
+        </p>
+        <p>
+          <h3>What to expect by Midway and post midway</h3>
+        </p>
+        <p>By midway I expect to complete the data preprocessing and generation of vectors of the articles. If possible I will try to apply the clustering algorithms to genarate some results. In post midway phase 
+          I will try to apply more clustering algorithms and hope to apply some neural networks techniques and try to improve the techniques in the preprocessing phase if possible and try to get better results.
+        </p>
+        <p>
+          <h3>Preprocessing of the Articles</h3>
+        </p>
+        <p>
+          Here I have picked the content of the news as the primary source of information about the news. I have decided to consider the title/heading of the news later because the
+          title contains some of the important words which can be useful during clustering. After collection of articles the preprocessing started with separation of individual
+          words in the article followed by conversion of each words lower case. During preprocessing of the articles I have removed stopwords, for this purpose I have used nltk 
+          standard stopwords package. Here is a snapshot of what the news articles look like after the preprocessing.
+        </p>
+        <div> 
+          <center><img src= 
+            "preprocessing.jpg" width="1600" height="400"
+                                ></center> 
+        </div>
+        <p>
+          In this preprocessing there are few problems like dates are being treated as individual words. For example <b>11 September 2001</b> is an important date but and is important
+          conveying the topic of the news but here it is being treated as three different words 11, september and 2001. Similar are the problems with word combos like '<b>1 billion</b>'
+          being treated separately. So these are the things which are to be taken care of. Here I also have not used any stemming and lemmatizing, but I plan on using them later to 
+          if it helpls in any betterment.
+        </p>
+          <p>
+            <h3>Creation of embeddings for the doccuments</h3>
+          </p>
+          <p>
+            For the creation of the embeddings for the news articles I have used the <b>gendim:doc2vec package</b>. Doc2Vec is based on word2vec but instead of generating
+            embeddings for words it generates embeddings for variable length doccuments.  Now words maintain logical (grammatical) structure but documents don’t have any logical
+             structures. To solve this problem another vector (Paragraph ID) needs to add with word2vec model. This is the only difference between word2vec and doc2vec. One thing to
+             be noted is <b>ParagraphID</b> is a unique document ID.<br>
+             Now there are two versions of doc2vec available
+          </p>
+          <ul>
+            <li>Distributed Memory Model of Paragraph Vectors (PV-DM)(Similar to <b>Continuous Bag of Words</b> model of Wrod2Vec)</li>
+            <li>Distributed Bag of Words version of Paragraph Vector (PV-DBOW)(Similar to <b>Skip-gram</b> model of Wrod2Vec)</li>
+          </ul>
+          <p>We will have a little idea about both of them.</p>
+          <p><h4>Distributed Memory Model</h4></p>
+          <p>Distributed Memory (DM) model is similar to Continuous-Bag-of-Words (CBOW) model in word2vec which attempts to guess the output (target word) from its neighboring words 
+            (context words) with the addition of a paragraph ID. Lets say we have a single doccument say <p style="color:blue;">"I like natural language processing"</p> and it will
+          be predicting next word for a given word. Then the model will look like below</p>
+          <div> 
+            <center><img src= 
+              "DM model.png" width="400" height="400"
+                                  ></center> 
+          </div>
+          <p>So here it learns to predict a word based on the words present in the context. Here it trains the doccument vector along with the words with the intution that given 
+            the vector of the doccument, it should be good enough to predict the words in the document.
+          </p>
+
+
+          <p><h4>Distributed Bag of Words</h4></p>
+          <p>Distributed Bag-Of-Words (DBOW) Model similar to skip-gram model of word2vec, which guesses the context words from a target word. The following figure explains it</p>
+          <div> 
+            <center><img src= 
+              "DBOW.png" width="400" height="400"
+                                  ></center> 
+          </div>
+          <p>So here it learns to predict the context words based on the doccument. There is only one difference between skip-gram and distributed bag of words (DBOW) is instead of 
+            using the target word as the input, Distributed Bag of Words (DBOW) takes the document ID (Paragraph ID) as the input and tries to predict randomly sampled words from the
+             document.
+          </p>
+          <p><h3>Applying the Clustering Algorithms</h3></p>
+          <p>After the creation of the doc vectors for the articles I applied the K-means clustering algorithms. Here I have choosen vector length of 2 for simplicity in visualization.
+            After the vectors of the documents were created and when we plotted it 2D it looked like the following.
+          </p>
+          <div> 
+            <center><img src= 
+              "articles.png" width="600" height="400"
+                                  ></center> 
+          </div>
+          <p>So this plot looks like all the news are in the single cluster at first glance but since this cluster is spread out horizontally so news articles present at the extreme
+            ends of the clusters have high chance to be of different topics because their vector representations are quite separated from each other. So my guess before the clutering 
+            was it would be best to have two clusters out of this plot. So to confirm this elbow method was conducted. Here we calculated the inertia score for cluster numbers 1 to 10.
+            <b>Inertia</b> is the sum of squared distances of samples to their closest cluster centre. It is also sometimes called <b>Sum of Squared Errors(SSE).</b> The following is the expression for inertia.
+          </p>
+         <center>$$ SSE= \sum_{i=1}^n\sum_{j=1}^k w^{(i,j)}|x^i-\mu^j|_2^2$$<br>
+        Here $$\mu^j$$ is the center for cluster j<br>
+      and $$   w^{(i,j)}=1\ \text{if the sample } x^i \text{is in cluster} j,\ 
+      0\ \text{otherwise} $$</center> 
+      <p>The output of the elbow method looked like the following</p>
+
+ <div> 
+            <center><img src= 
+              "aijazeera inertia.png" width="600" height="400"
+                                  ></center> 
+          </div>
+
+<p>The elbow method confirmed that 3 clusters is optimal. So after applying the K-means algorithm for two clusters the output was the following</p>
+<div> 
+  <center><img src= 
+    "articles 3 c.png" width="600" height="400"
+                        ></center> 
+</div>
+<p>But as you can notice that since we are focusing on vectors of length 2, its very difficult to represent the documents in 2D and still retaing the features. So instead of creating 2D vectors I created vectors 
+  whose dimensions are 150 and then used a dimension reduction algorithm to get the 2 length vectors. Here for dimension reduction I have used t-SNE algorithm because gives us better results.
+</p>
+<p><h3>t-SNE</h3></p>
+<p>t-Distributed Stochastic Neighbor Embedding (t-SNE) is a non-linear technique for dimensionality reduction that is particularly well suited for the visualization of high-dimensional datasets. It is extensively
+   applied in image processing, NLP, genomic data and speech processing.</p>
+<p><h4>A brief overview</h4></p>
+<ul>
+  <li>The algorithms starts by calculating the probability of similarity of points in high-dimensional space and calculating the probability of similarity of points in the corresponding low-dimensional space.
+     The similarity of points is calculated as the conditional probability that a point A would choose point B as its neighbor if neighbors were picked in proportion to their probability density under a Gaussian
+      (normal distribution) centered at A.</li>
+  <li>It then tries to minimize the difference between these conditional probabilities (or similarities) in higher-dimensional and lower-dimensional space for a perfect representation of data points in 
+    lower-dimensional space.</li>
+  <li>To measure the minimization of the sum of difference of conditional probability t-SNE minimizes the sum of Kullback-Leibler divergence of overall data points using a gradient descent method.</li>
+</ul>
+<p><h4>Working Principle of t-SNE</h4></p>
+<ul>
+  <li>
+    Firstly, it will create the probability distribution by picking a random datapoint and calculating the Euclidean distance with other data points (|xᵢ — xⱼ|). Nearby data points from the selected data 
+    point will get more value of similarity and the data points which are far away from the selected data point will get less value of similarity. With the similarity values, it will create a similarity matrix (S1) 
+    for every data point.
+  </li>
+  
+    <div> 
+      <center><img src= 
+        "tsne eg.jpeg" width="600" height="400"
+                            ></center> 
+    </div>
+  <li>
+    By the above image, we can say that neighborhood of X1 N(X1)= {X2, X3, X4, X5, X6} which means X2, X3, X4, X5, and X6 are the neighbors of X1. and it will get higher value in the similarity matrix ‘S1’.
+     This is calculated by calculating the Euclidean distance with other data points.
+  </li>
+  <li>
+    On the other hand, X20 is located far away from X1. So that it will get a lower value in S1.
+  </li>
+  <li>
+    Second, it converts the calculated similarity distance into joint probability according to the Normal distribution.
+  </li>
+  <li>
+    Now, t-SNE arranges all of the data points randomly on the required lower dimensional.
+  </li>
+  <div> 
+    <center><img src= 
+      "tsne 1d eg.jpeg" width="600" height="100"
+                          ></center> 
+  </div>
+  <li>
+    t-SNE will do all the same calculations which it did for the higher-dimensional data points to the randomly arranged lower-dimensional data points again. But in this step, it assigns probability according
+     to t-distribution. This is the reason for the name t-SNE.
+  </li>
+  <li>
+    The purpose of t-distribution in t-SNE is to reduce the crowding problem.
+  </li>
+
+  <li>
+    For the lower-dimensional data points also, it will create a similarity matrix (S2).
+  </li>
+  <li>
+    Now the algorithm compares S1 with S2 and makes the difference between S1 and S2 by handling some complex mathematics.
+  </li>
+  <li>
+    A Gradient Descent algorithm is run with Kullback Leibler Divergence (KL Divergence) between the two distributions as cost function.
+  </li>
+  <li>
+    This KL Divergence helps t-SNE to preserve the local structure of the data by minimizing its value between the two distributions with respect to the locations of the data points.
+  </li>
+  <li>
+    Finally, the algorithm can able to get lower-dimensional data points with a good relative similarity of the original higher-dimensional data.
+  </li>
+  <div>
+    <h3>Application of t-SNE for reducing the vector dimensions</h3>
+  </div>
+  <p>So after creating the 150 dimension vectors we apply the t-SNE algorithm on them to reduce them to 2 dimension for visualisation. The following figure depicts the following</p>
+  <div> 
+    <center><img src= 
+      "tsne reduction.png" width="600" height="400"
+                          ></center> 
+  </div>
+  Here from the scatter plot we can observe that the scatter plot is actually good unlike the previous plots whicch just looks like a single cloud of vector points. Here we can actually see some irregularity. We
+  can also notice some blobs which have the possibility of of forming separate clusters (Like two blobs at the bottom side of the clusters.) So on this plot we applied KMeans with 3 clusters and here is the output. 
+  <div> 
+    <center><img src= 
+      "kmeans tsne 3.png" width="600" height="400"
+            ></center> 
+  </div>
+  Just for some observations I also applied DBSCAN algorithm. It formed the clusters quite well with quite few outliers. Here my epsilon = 2.9 and min_samples=5 gave a proper result. Here is the plot.
+  <div> 
+    <center><img src= 
+      "dbscan tsne 3.png" width="600" height="400"
+            ></center> 
+  </div> 
+  <p><h3>Generation of Word Clouds(Results and Conclusion)</h3></p>
+  <p>After the generation of vectors and applying of Kmeans and getting the clusters. Now is the time to see what clusters talks about. So for this I formed the word clouds of all the three clusters. For this 
+     I took the first 100 frequent occuring words in each clusters and tried to form the wordcloud. Here is the image.
+  </p>
+  <div> 
+    <center><img src= 
+      "word clouds 3 clusters2.png" width="1800" height="400"
+            ></center> 
+  </div> 
+  <p>From the wordclouds we can observe that Cluster 0 does not talk about anything specific. It mainly I think focuses on some international government news. There are no significant frequent words in cluster 0. 
+  Cluster 1 on the other hand contains very good significant words like 'palestinian','israel','west bank','gaza strip','prime minister' and some other words. From here we can conclude that Cluster 1 talks mostly
+  about political news in these areas. Cluster 2 contains words like 'government', 'attack', 'iraq', 'police', 'saddam hussein', 'soldiers', 'al qaida', 'baghdad', 'afghanistan'. There are some words with some less frequency like 'american',
+  'muslim', 'pakistan', 'blast', 'human rights'. So according to me cluster 3 speaks a lot about terrorist news in some specific countries and the issues related to it.</p>
+  <p>How ever I also targeted to implement and check the results on applying LDA but it could not be achieved. More rigorious data preprocessing could have improved the results according to me.</p>
+  <p><h3>References</h3></p>
+</ul>
+        <ol>
+          <li>
+             <p><a name="MikolovWord2Vec"><cite>Mikolov, Tomas & Chen, Kai & Corrado, G.s & Dean, Jeffrey. (2013). Efficient Estimation of Word Representations in Vector Space. Proceedings of Workshop at ICLR. 2013.</cite></a></p>
+          </li>
+          <li>
+             <p><cite><a name="Clustering Review">Saxena, Amit & Prasad, Mukesh & Gupta, Akshansh & Bharill, Neha & Patel, op & Tiwari, Aruna & Er, Meng & Lin, Chin-Teng. (2017). A Review of Clustering Techniques and Developments. 
+               Neurocomputing. 267. 10.1016/j.neucom.2017.06.053.</a> </cite></p>
+          </li>
+          <li>
+            <p><cite><a name="MikolovDoc2Vec">Le, Quoc & Mikolov, Tomas. (2014). Distributed Representations of Sentences and Documents. 31st International Conference on Machine Learning, ICML 2014. 4.</a> </cite></p>
+         </li>
+         <li><cite><a name="News classification from social media">Trieu, Lap & Tran, Huy & Tran, Minh-Triet. (2017). News Classification from Social Media Using Twitter-based Doc2Vec Model and Automatic Query Expansion. 460-467. 10.1145/3155133.3155206. 
+        </a></cite></li>
+       </ol>
+    
+    </body>
+</html>
